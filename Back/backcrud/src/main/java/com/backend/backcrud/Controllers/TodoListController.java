@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
 public class TodoListController {
     private TodoListService toDoListService;
 
@@ -59,7 +59,12 @@ public class TodoListController {
     }
 
     @DeleteMapping(value = "api/{id}/todo")
-    public void deleteAToDoById(@PathVariable("id")Long id){
+    public void deleteAToDoById(@PathVariable("id") Long id){
         toDoListService.deleteAToDoById(id);
+    }
+
+    @PutMapping(value = "api/{listId}/todolist")
+    public TodoListModel updateAListById(@PathVariable("listId") Long listId, @RequestBody TodoListModel todoList){
+        return toDoListService.updateATodoListById(listId, todoList);
     }
 }
