@@ -41,10 +41,7 @@ const App = () => {
   };
 
   const editItemHandler =  (goalId, inputUser) => {
-    console.log("Add item in Handler");
     goalIdToChange = goalId;
-    console.log(goalIdToChange);
-    console.log(inputUser);
     setCourseGoals(prevGoals => {
       const updatedGoals = prevGoals.filter(goal => goal.id !== goalId);
       updatedGoals.unshift({ text: inputUser, id: goalId });

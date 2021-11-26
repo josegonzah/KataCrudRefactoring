@@ -1,25 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import './CourseGoalSubItem.css';
+import styles from'./CourseGoalSubItem.module.css';
 
 import Button from '../../UI/Button/Button'
 
 const CourseGoalSubItem = props => {
-  // const [deleteText, setDeleteText] = useState('');
+
+  const [isDone, setIsDone] = useState(true);
+
+  const doneHandler = () => {
+    setIsDone(!isDone);
+    console.log(isDone);
+  }
 
   const deleteSubItemHandler = () => {
-    // setDeleteText('(Deleted!)');
-    console.log("borro");
     props.onDelete(props.id);
   };
 
   const editSubItemHandler = () => {
-    console.log("edito");
     props.onEdit(props.id);
   }
 
   return (
-    <li className="goal-subitem">
+    <li className={`${styles['goal-subitem']} ${!isDone && styles.isDone}`} onClick={doneHandler}>
       {props.children}
       <Button type="submit" onClick={editSubItemHandler}>Edit</Button>
       <Button type="submit" onClick={deleteSubItemHandler}>Delete</Button>

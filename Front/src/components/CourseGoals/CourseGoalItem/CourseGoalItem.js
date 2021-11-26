@@ -11,8 +11,8 @@ const CourseGoalItem = props => {
   const [subItemID, setSubItemID] = useState('');
   const [input, setInput] = useState('');
   const [courseSubGoals, setCourseSubGoals] = useState([
-    {text: 'Aqui hay un subItem', id: 's1'},
-    {text: 'Aqui hay un segundo subItem', id:'s2'}
+    {text: 'Aqui hay un subItem', id: 's1', done: false},
+    {text: 'Aqui hay un segundo subItem', id:'s2', done: false}
   ]);
 
   const deleteSubItemHandler = goalId => {
@@ -58,7 +58,6 @@ const CourseGoalItem = props => {
       setCourseSubGoals(prevSubGoals => {
         const updatedSubGoals = [...prevSubGoals];
         updatedSubGoals.unshift({text: userInputText, id: Math.random().toString()});
-        console.log(updatedSubGoals);
         return updatedSubGoals;
       })
     }

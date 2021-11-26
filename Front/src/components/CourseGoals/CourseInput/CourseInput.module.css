@@ -5,9 +5,10 @@
 .form-control label {
   font-weight: bold;
   display: block;
-  color: white;
   margin-bottom: 0.5rem;
+  color: #107C10;
 }
+
 
 .form-control input {
   display: block;
@@ -20,8 +21,8 @@
 
 .form-control input:focus {
   outline: none;
-  background: #fad0ec;
-  border-color: #8b005d;
+  background: white;
+  border-color: white;
 }
 
 .form-control.invalid input {
