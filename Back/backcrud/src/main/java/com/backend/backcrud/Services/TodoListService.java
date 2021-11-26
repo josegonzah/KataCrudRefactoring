@@ -84,6 +84,16 @@ public class TodoListService {
         return todoModel;
     }
 
+    public TodoListModel updateATodoListById(Long listId, TodoListModel todoListModel){
+        var listTodo = todoListRepository.findById(listId)
+                    .orElseThrow(() -> new NotFoundIdException(NO_FOUND_ID));
+        
+        listTodo.setName(todoListModel.getName());
+        todoListRepository.save(listTodo);
+        
+        return todoListModel;           
+    }
+
     public TodoListModel newListTodo(TodoListModel todoListModel){
         var listToDo = new TodoList();
         listToDo.setName(Objects.requireNonNull(todoListModel.getName()));
