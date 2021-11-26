@@ -10,7 +10,6 @@ const CourseGoalSubItem = props => {
 
   const doneHandler = () => {
     setIsDone(!isDone);
-    console.log(isDone);
   }
 
   const deleteSubItemHandler = () => {
@@ -19,6 +18,7 @@ const CourseGoalSubItem = props => {
 
   const editSubItemHandler = () => {
     props.onEdit(props.id);
+    setIsDone(true);
   }
 
   return (

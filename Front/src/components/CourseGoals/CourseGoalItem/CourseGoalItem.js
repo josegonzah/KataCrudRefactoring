@@ -49,6 +49,10 @@ const CourseGoalItem = props => {
     })
   }
 
+  const doneHandlerJSON = () => {
+    console.log("Cambio el Json perros");
+  }
+
   const inputHandler = userInputText => {
     if(input.title === "Edit Item"){
       props.onEdit(props.id, userInputText);
@@ -75,7 +79,7 @@ const CourseGoalItem = props => {
   return (
     <Wrapper>
       {input && <InputModal title={input.title} message={input.message} onConfirm={inputHandler}/>}
-      <li className="goal-item">
+      <li className="goal-item" onClick={doneHandlerJSON}>
         {props.children}
         <Button type="submit" onClick={editHandler}>Edit</Button>
         <Button type="submit" onClick={deleteHandler}>Delete</Button>

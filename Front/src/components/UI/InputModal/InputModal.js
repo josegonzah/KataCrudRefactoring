@@ -12,6 +12,9 @@ const InputModal = props => {
     };
 
     const buttonClickHandler = () => {
+        if(enteredValue.trim().length === 0){
+            return
+        }
         props.onConfirm(enteredValue)
     }
 
