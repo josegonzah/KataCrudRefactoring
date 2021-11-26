@@ -10,6 +10,7 @@ const CourseGoalSubItem = props => {
 
   const doneHandler = () => {
     setIsDone(!isDone);
+    props.onChangeStatus(props.id, props.text, isDone);
   }
 
   const deleteSubItemHandler = () => {

@@ -49,8 +49,12 @@ const CourseGoalItem = props => {
     })
   }
 
-  const doneHandlerJSON = () => {
-    console.log("Cambio el Json perros");
+  const changeStatusHandler= (subItemID, text, isDone) => {
+    setCourseSubGoals(prevSubGoals => {
+    const updatedSubGoals = prevSubGoals.filter(goal => goal.id !== subItemID);
+    updatedSubGoals.unshift({ id: subItemID, text: text, done: isDone });
+    return updatedSubGoals;
+    })
   }
 
   const inputHandler = userInputText => {
@@ -58,7 +62,6 @@ const CourseGoalItem = props => {
       props.onEdit(props.id, userInputText);
     }
     if(input.title === "Add SubItem"){
-      console.log(userInputText);
       setCourseSubGoals(prevSubGoals => {
         const updatedSubGoals = [...prevSubGoals];
         updatedSubGoals.unshift({text: userInputText, id: Math.random().toString()});
@@ -79,7 +82,7 @@ const CourseGoalItem = props => {
   return (
     <Wrapper>
       {input && <InputModal title={input.title} message={input.message} onConfirm={inputHandler}/>}
-      <li className="goal-item" onClick={doneHandlerJSON}>
+      <li className="goal-item">
         {props.children}
         <Button type="submit" onClick={editHandler}>Edit</Button>
         <Button type="submit" onClick={deleteHandler}>Delete</Button>
@@ -89,8 +92,10 @@ const CourseGoalItem = props => {
             <CourseGoalSubItem
               key={subgoal.id}
               id={subgoal.id}
+              text={subgoal.text}
               onDelete={deleteSubItemHandler}
               onEdit={editSubItemHandler}
+              onChangeStatus={changeStatusHandler}
             >
               {subgoal.text}
             </CourseGoalSubItem>
