@@ -6,6 +6,7 @@ import Wrapper from '../../Helpers/Wrapper'
 import InputModal from '../../UI/InputModal/InputModal';
 import CourseGoalSubItem from '../CourseGoalSubItem/CourseGoalSubItem'
 
+const HOST_API = 'http://localhost:8080/api';
 
 const CourseGoalItem = props => {
   const [subItemID, setSubItemID] = useState('');
