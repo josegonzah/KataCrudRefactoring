@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import './CourseGoalItem.css';
 import Button from '../../UI/Button/Button'
@@ -11,12 +11,29 @@ const HOST_API = 'http://localhost:8080/api';
 const CourseGoalItem = props => {
   const [subItemID, setSubItemID] = useState('');
   const [input, setInput] = useState('');
-  const [courseSubGoals, setCourseSubGoals] = useState([
-    {text: 'Aqui hay un subItem', id: 's1', done: false},
-    {text: 'Aqui hay un segundo subItem', id:'s2', done: false}
-  ]);
+  const [courseSubGoals, setCourseSubGoals] = useState([]);
+
+  useEffect(() => {
+    fetch(HOST_API + '/' + props.id + '/todos')
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    const transformedList = data.map((todoItemData) => {
+      return {
+        id: todoItemData.id,
+        text: todoItemData.name,
+        done: todoItemData.completed
+      };
+    });
+    setCourseSubGoals(transformedList);
+  });
+  }, [])
 
   const deleteSubItemHandler = goalId => {
+    // fetch(HOST_API + '/' + goalId + '/todolist', {
+    //   method: 'DELETE'
+    // });
     setCourseSubGoals(prevSubGoals => {
       const updatedSubGoals = prevSubGoals.filter(subGoal => subGoal.id !== goalId);
       return updatedSubGoals;
@@ -63,6 +80,11 @@ const CourseGoalItem = props => {
       props.onEdit(props.id, userInputText);
     }
     if(input.title === "Add SubItem"){
+      fetch(HOST_API + '/' + props.id + '/todo', {
+        method: 'POST',
+        body: JSON.stringify({name: userInputText}),
+        headers: { 'Content-Type': 'application/json'}
+      })
       setCourseSubGoals(prevSubGoals => {
         const updatedSubGoals = [...prevSubGoals];
         updatedSubGoals.unshift({text: userInputText, id: Math.random().toString()});
@@ -70,6 +92,10 @@ const CourseGoalItem = props => {
       })
     }
     if(input.title === "Edit SubItem"){
+      fetch(HOST_API + '/' + props.id + '/todolist', {
+        method: "PUT",
+        body: JSON.stringify({id: subItemID, name: userInputText, completed: true})
+      })
       setCourseSubGoals(prevSubGoals => {
         const updatedSubGoals = prevSubGoals.filter(goal => goal.id !== subItemID);
         updatedSubGoals.unshift({ text: userInputText, id: subItemID });
