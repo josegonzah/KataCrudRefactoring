@@ -39,11 +39,15 @@ const App = () => {
       body: JSON.stringify({name: enteredText}),
       headers: { 'Content-Type': 'application/json'}
     })
-    setCourseGoals(prevGoals => {
-      const updatedGoals = [...prevGoals];
-      updatedGoals.unshift({ text: enteredText, id: Math.random().toString() });
-      return updatedGoals;
-    });
+    .then((response) => {
+      return response.json();
+    }).then((data) => {
+      setCourseGoals(prevGoals => {
+        const updatedGoals = [...prevGoals];
+        updatedGoals.unshift({ text: data.name, id: data.id});
+        return updatedGoals;
+      });
+    })
   };
 
   const addSubitemHandler = () => {
@@ -68,6 +72,11 @@ const App = () => {
 
   const editItemHandler =  (goalId, inputUser) => {
     goalIdToChange = goalId;
+    fetch(HOST_API + '/' + goalId +'/todolist', {
+      method: 'PUT',
+      body: JSON.stringify({name: inputUser}),
+      headers: { 'Content-Type': 'application/json'}
+    })
     setCourseGoals(prevGoals => {
       const updatedGoals = prevGoals.filter(goal => goal.id !== goalId);
       updatedGoals.unshift({ text: inputUser, id: goalId });

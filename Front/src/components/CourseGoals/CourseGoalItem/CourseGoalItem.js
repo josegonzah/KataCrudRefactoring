@@ -19,6 +19,10 @@ const CourseGoalItem = props => {
     return response.json();
   })
   .then((data) => {
+    var todoItemData = [];
+    if(data === undefined){
+      console.log("No data");
+    }
     const transformedList = data.map((todoItemData) => {
       return {
         id: todoItemData.id,
@@ -27,15 +31,13 @@ const CourseGoalItem = props => {
       };
     });
     setCourseSubGoals(transformedList);
+  
   });
   }, [])
 
   const deleteSubItemHandler = goalId => {
-    // fetch(HOST_API + '/' + goalId + '/todolist', {
-    //   method: 'DELETE'
-    // });
     setCourseSubGoals(prevSubGoals => {
-      const updatedSubGoals = prevSubGoals.filter(subGoal => subGoal.id !== goalId);
+      const updatedSubGoals = prevSubGoals.filter(subGoal => subGoal.id !== (goalId));
       return updatedSubGoals;
     });
   }
@@ -68,6 +70,11 @@ const CourseGoalItem = props => {
   }
 
   const changeStatusHandler= (subItemID, text, isDone) => {
+    fetch(HOST_API + '/' + props.id + '/todo', {
+      method: "PUT",
+      body: JSON.stringify({id: subItemID, name: text, completed: isDone}),
+      headers: { 'Content-Type': 'application/json'}
+    })
     setCourseSubGoals(prevSubGoals => {
     const updatedSubGoals = prevSubGoals.filter(goal => goal.id !== subItemID);
     updatedSubGoals.unshift({ id: subItemID, text: text, done: isDone });
@@ -84,17 +91,24 @@ const CourseGoalItem = props => {
         method: 'POST',
         body: JSON.stringify({name: userInputText}),
         headers: { 'Content-Type': 'application/json'}
-      })
-      setCourseSubGoals(prevSubGoals => {
-        const updatedSubGoals = [...prevSubGoals];
-        updatedSubGoals.unshift({text: userInputText, id: Math.random().toString()});
-        return updatedSubGoals;
+      }).then((response) => {
+        return response.json();
+      }).then((data) => {
+        setCourseSubGoals(prevSubGoals => {
+          const updatedSubGoals = [...prevSubGoals];
+          updatedSubGoals.unshift({text: data.name, id: data.id});
+          return updatedSubGoals;
+        })
       })
     }
+
+
     if(input.title === "Edit SubItem"){
-      fetch(HOST_API + '/' + props.id + '/todolist', {
+      console.log(props.id);
+      fetch(HOST_API + '/' + props.id + '/todo', {
         method: "PUT",
-        body: JSON.stringify({id: subItemID, name: userInputText, completed: true})
+        body: JSON.stringify({id: subItemID, name: userInputText, completed: true}),
+        headers: { 'Content-Type': 'application/json'}
       })
       setCourseSubGoals(prevSubGoals => {
         const updatedSubGoals = prevSubGoals.filter(goal => goal.id !== subItemID);
@@ -120,6 +134,7 @@ const CourseGoalItem = props => {
               key={subgoal.id}
               id={subgoal.id}
               text={subgoal.text}
+              isDone={subgoal.isDone}
               onDelete={deleteSubItemHandler}
               onEdit={editSubItemHandler}
               onChangeStatus={changeStatusHandler}

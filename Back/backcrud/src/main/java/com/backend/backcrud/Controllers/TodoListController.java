@@ -53,6 +53,11 @@ public class TodoListController {
         throw new NotFoundIdException("No existe el id para actualizar");
     }
 
+    @PutMapping(value = "api/{listId}/todolist")
+    public TodoListModel updateAListById(@PathVariable("listId") Long listId, @RequestBody TodoListModel todoList){
+        return toDoListService.updateATodoListById(listId, todoList);
+    }
+
     @PostMapping(value = "api/{listId}/todo")
     public TodoModel addNewToDoByListId(@PathVariable("listId") Long listId, @RequestBody TodoModel todo){
         return toDoListService.addNewTodoByListId(listId, todo);
