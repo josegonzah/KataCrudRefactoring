@@ -124,9 +124,22 @@ public class TodoListService {
         todoListRepository.delete(listToDo);
     }
 
-    public void deleteAToDoById(Long id) {
-        var toDo = todoRespository.findById(id).orElseThrow();
-        todoRespository.delete(toDo);
+    public void deleteAToDoById(Long id, TodoModel todoModel) {
+        var listToDo = todoListRepository.findById(id)
+        .orElseThrow(() -> new NotFoundIdException(NO_FOUND_ID));
+
+        var todos = listToDo.getToDos();
+        if (todos.remove(todoModel)){
+            listToDo.setToDos(todos);
+            System.out.println("Si se pudo bro");
+        }
+        else{
+            System.out.println("no se pudo bro");
+        }
+
+        todoListRepository.save(listToDo);
+        // var toDo = todoRespository.findById(id).orElseThrow();
+        // todoRespository.delete(toDo);
     }
 
 }
