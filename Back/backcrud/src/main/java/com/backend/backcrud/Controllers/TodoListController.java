@@ -64,7 +64,7 @@ public class TodoListController {
     }
 
     @DeleteMapping(value = "api/{id}/todo")
-    public void deleteAToDoById(@PathVariable("id")Long id){
-        toDoListService.deleteAToDoById(id);
+    public void deleteAToDoById(@PathVariable("id") Long id, @RequestBody TodoModel todo){
+        toDoListService.deleteAToDoById(id, todo);
     }
 }
