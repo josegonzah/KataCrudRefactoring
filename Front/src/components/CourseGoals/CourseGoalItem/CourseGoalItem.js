@@ -19,10 +19,6 @@ const CourseGoalItem = props => {
     return response.json();
   })
   .then((data) => {
-    var todoItemData = [];
-    if(data === undefined){
-      console.log("No data");
-    }
     const transformedList = data.map((todoItemData) => {
       return {
         id: todoItemData.id,
@@ -31,13 +27,14 @@ const CourseGoalItem = props => {
       };
     });
     setCourseSubGoals(transformedList);
+    console.log(transformedList)
   
   });
   }, [])
 
   const deleteSubItemHandler = goalId => {
     setCourseSubGoals(prevSubGoals => {
-      const updatedSubGoals = prevSubGoals.filter(subGoal => subGoal.id !== (goalId));
+      const updatedSubGoals = prevSubGoals.filter(subGoal => subGoal.id !== goalId);
       return updatedSubGoals;
     });
   }
