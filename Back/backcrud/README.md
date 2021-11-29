@@ -30,6 +30,11 @@ Put 'http://localhost:8080/api/{Idlista}/todo'
 }
 -retorna un json con la tarea actualizada
 
+## Actualizar una lista de tareas
+Put 'http://localhost:8080/api/{listId}/todolist'
+{
+	"name": "nombre de la tarea",
+}
 
 ## Eliminar una lista de tareas
 delete 'http://localhost:8080/api/{Idlista}/todolist'
